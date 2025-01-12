@@ -30,4 +30,7 @@ public class HikeDTO {
     private String physicalLevel;
     private String technicalLevel;
     private String massif;
+    private String maxHeight;
+    private String differenceHeight;
+    private String mapNumber;
 }

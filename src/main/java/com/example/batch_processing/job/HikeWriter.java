@@ -1,5 +1,7 @@
 package com.example.batch_processing.job;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 
@@ -15,8 +17,9 @@ import java.util.List;
 public class HikeWriter implements ItemWriter<HikeDTO> {
 
     private static final String CSQ = ",";
-    private static final String CSV_HEADER = "id,title,alias,created,username,createdAlias,catid,startDate,endDate,period,dates,next,place,city,country,address,lat,lng,shortdesc,desc,customfields,categoryName";
+    private static final String CSV_HEADER = "id,titre,alias,catégorie,créer le,nom,createdAlias,date de début,date de fin,periode,dates,autre date,place,ville,pays,adresse,lat,lng,descrition courte,descscrition longue,niveau physique,niveau technique,massif, altitude max ,dénivelé,num carte";
     private static final String FILE_PATH = "hikes.csv";
+        private static final Logger LOGGER = LoggerFactory.getLogger(HikeWriter.class);
 
     @Override
     public void write(@NonNull Chunk<? extends HikeDTO> chunk) throws Exception {
@@ -30,10 +33,10 @@ public class HikeWriter implements ItemWriter<HikeDTO> {
                 writer.append(String.valueOf(hike.getId())).append(CSQ)
                       .append(hike.getTitle()).append(CSQ)
                       .append(hike.getAlias()).append(CSQ)
+                      .append(hike.getCategoryName()).append(CSQ)
                       .append(hike.getCreated().toString()).append(CSQ)
                       .append(hike.getUsername()).append(CSQ)
                       .append(hike.getCreatedAlias()).append(CSQ)
-                      .append(hike.getCatid()).append(CSQ)
                       .append(hike.getStartDate().toString()).append(CSQ)
                       .append(hike.getEndDate().toString()).append(CSQ)
                       .append(hike.getPeriod()).append(CSQ)
@@ -47,10 +50,16 @@ public class HikeWriter implements ItemWriter<HikeDTO> {
                       .append(String.valueOf(hike.getLng())).append(CSQ)
                       .append(hike.getShortdesc()).append(CSQ)
                       .append(hike.getDesc()).append(CSQ)
-                      .append(hike.getCategoryName()).append("\n");
+                      .append(hike.getPhysicalLevel()).append(CSQ)
+                      .append(hike.getTechnicalLevel()).append(CSQ)
+                      .append(hike.getMassif()).append(CSQ)
+                      .append(hike.getMaxHeight()).append(CSQ)
+                      .append(hike.getDifferenceHeight()).append(CSQ)
+                      .append(hike.getMapNumber())
+                      .append("\n");
             }
         } catch (IOException e) {
-            throw new IOException("Error writing to CSV file", e);
+            LOGGER.error("Error writing to CSV file", e);
         }
     }
 }
