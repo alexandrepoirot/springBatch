@@ -28,13 +28,17 @@ public class HikeProcessor implements ItemProcessor<HikeEntity, HikeDTO> {
         hikeDTO.setPlace(hikeEntity.getPlace());
         hikeDTO.setCity(hikeEntity.getCity());
         hikeDTO.setCountry(hikeEntity.getCountry());
-        hikeDTO.setAddress(hikeEntity.getAddress());
+        hikeDTO.setAddress(replacString(hikeEntity.getAddress()));
         hikeDTO.setLat(hikeEntity.getLat());
         hikeDTO.setLng(hikeEntity.getLng());
-        hikeDTO.setShortdesc(hikeEntity.getShortdesc());
-        hikeDTO.setDesc(hikeEntity.getDesc());
+        hikeDTO.setShortdesc(replacString(hikeEntity.getShortdesc()));
+        hikeDTO.setDesc(replacString(hikeEntity.getDesc()));
         hikeDTO.setCategoryName(hikeEntity.getCategoryName());
         return hikeDTO;
     }
+
+    private String replacString (String input){
+        return input.replaceAll("<[^>]*>", "").replaceAll("[\\r\\n\\t]", "").replaceAll("&nbsp;", "");
+    } 
 
 }
